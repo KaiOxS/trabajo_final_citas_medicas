@@ -10,6 +10,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import uce.edu.ec.grupo6.api.application.PacienteService;
+import uce.edu.ec.grupo6.api.application.Representation.PacienteRepresentation;
 import uce.edu.ec.grupo6.api.domain.Paciente;
 
 @Path("/pacientes")
@@ -21,49 +22,57 @@ public class PacienteResource {
     @Inject
     private PacienteService pacienteService;
 
-    // CREATE
-    @POST
-    @RolesAllowed("ADMIN")
-    public Response crearPaciente(@Valid Paciente paciente) {
-        pacienteService.guardar(paciente);
-        return Response.status(Response.Status.CREATED).entity(paciente).build();
-    }
-
-    // READ
     @GET
-    @RolesAllowed("ADMIN")
-    public List<Paciente> listarPacientes() {
-        return pacienteService.listarTodos();
+    @Path("")
+    @RolesAllowed("admin")
+    public List<PacienteRepresentation> listarTodos() {
+        List<PacienteRepresentation> pac = this.pacienteService.listarTodos();
+        System.out.println(pac);
+        return pac;
     }
 
-    // UPDATE
+    @GET
+    @Path("cedula")
+    @RolesAllowed("admin")
+    public List<PacienteRepresentation> buscarPorCedula(@QueryParam("cedula") String cedula){
+        System.out.println("LISTAR POR CEDULA");
+        return this.pacienteService.buscarPorCedula(cedula);
+    }
+
+    @GET
+    @Path("/{id}")
+    @RolesAllowed("admin")
+    public PacienteRepresentation consultarPorId(@PathParam("id") Integer iden) {
+        return this.pacienteService.consultarPorId(iden);
+    }
+    @POST
+    @Path("")
+    @RolesAllowed("admin")
+    public Response guardar(PacienteRepresentation pac) {
+        this.pacienteService.crear(pac);
+        return Response.status(Response.Status.CREATED).entity(pac).build();
+    }
+
     @PUT
     @Path("/{id}")
-    @RolesAllowed("ADMIN")
-    public Response actualizarPaciente(
-            @PathParam("id") Long id,
-            @Valid Paciente paciente) {
-
-        Paciente actualizado = pacienteService.actualizar(id, paciente);
-
-        if (actualizado == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return Response.ok(actualizado).build();
+    @RolesAllowed("admin")
+    public Response actualizar(@PathParam("id") Integer id, PacienteRepresentation pac){
+        this.pacienteService.actualizar(id, pac);
+        return Response.status(209).entity(null).build();
     }
 
-    // DELETE
+    @PATCH
+    @Path("/{id}")
+    @RolesAllowed("admin")
+    public Response actualizarParcial(@PathParam("id") Integer id, PacienteRepresentation pac){
+        this.pacienteService.actualizarParcial(id, pac);
+        return Response.status(209).entity(null).build();
+    }
+
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("ADMIN")
-    public Response eliminarPaciente(@PathParam("id") Long id) {
-        boolean eliminado = pacienteService.eliminar(id);
-
-        if (!eliminado) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return Response.noContent().build();
+    @RolesAllowed("admin")
+    public void borrar(@PathParam("id") Integer id){
+        this.pacienteService.eliminar(id);;
     }
 }

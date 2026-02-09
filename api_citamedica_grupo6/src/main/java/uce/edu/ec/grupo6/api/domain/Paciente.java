@@ -25,25 +25,86 @@ public class Paciente extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "paciente_seq")
-    public Long id;
+    private Long id;
 
     @NotBlank(message = "El nombre es obligatorio")
     @Column(length = 100, nullable = false)
-    public String nombre;
+    private String nombre;
 
     @NotBlank(message = "El apellido es obligatorio")
     @Column(length = 100, nullable = false)
-    public String apellido;
+    private String apellido;
 
     @NotBlank(message = "La cédula es obligatoria")
     @Size(min = 10, max = 10, message = "La cédula debe tener 10 dígitos")
     @Column(length = 10, unique = true, nullable = false)
-    public String cedula;
+    private String cedula;
 
     @Column(length = 20)
-    public String telefono;
+    private String celular;
 
     @NotNull(message = "La fecha de nacimiento es obligatoria")
     @Column(name = "fecha_nacimiento", nullable = false)
-    public LocalDate fechaNacimiento;
+    private LocalDate fecha_nac;
+
+    @Column(length = 50)
+    private String direccion;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public LocalDate getFecha_nac() {
+        return fecha_nac;
+    }
+
+    public void setFecha_nac(LocalDate fecha_nac) {
+        this.fecha_nac = fecha_nac;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    
 }
