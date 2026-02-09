@@ -25,7 +25,7 @@ public class Paciente extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "paciente_seq")
-    private Long id;
+    public Long id;
 
     @NotBlank(message = "El nombre es obligatorio")
     @Column(length = 100, nullable = false)
