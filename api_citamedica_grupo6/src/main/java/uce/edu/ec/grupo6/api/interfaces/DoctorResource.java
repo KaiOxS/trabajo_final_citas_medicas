@@ -5,7 +5,6 @@ import java.util.List;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -17,45 +16,42 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import uce.edu.ec.grupo6.api.application.DoctorService;
-import uce.edu.ec.grupo6.api.domain.Doctor;
+import uce.edu.ec.grupo6.api.application.Representation.DoctorRepresentation;
 
 @Path("/doctores")
 @ApplicationScoped
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class DoctorResource {
     @Inject
     private DoctorService doctorService;
 
     @POST
     @Path("")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("admin")
-    public Response registrarDoctor(@Valid Doctor doctor) {
-        this.doctorService.guardar(doctor);
-        return Response.status(Response.Status.CREATED).entity(doctor).build();
+    public Response registrarDoctor(DoctorRepresentation docRepre){
+        this.doctorService.guardar(docRepre);
+        return Response.status(Response.Status.CREATED).entity(docRepre).build();
     }
-
     @GET
     @Path("")
-    @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("admin")
-    public List<Doctor> obtenerDoctores() {
-        return this.doctorService.listarTodos();
+    public List<DoctorRepresentation> obtenerDoctores(){
+        List<DoctorRepresentation> docRepre = this.doctorService.listarTodos();
+        return docRepre;
     }
 
     @PUT
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("admin")
-    public Response modificarDoctor(@PathParam("id") Long id,@Valid Doctor doctor) {
-        Doctor actualizado = doctorService.actualizar(id, doctor);
-
+    public Response modificarDoctor(@PathParam("id") Long id, DoctorRepresentation docRepre){
+        DoctorRepresentation actualizado = this.doctorService.actualizar(id, docRepre);
+        
         if (actualizado == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).build(); // 404 si no existe
         }
-
-        return Response.ok(actualizado).build();
+        
+        return Response.ok(actualizado).build(); // 200 OK
     }
 
     @DELETE
