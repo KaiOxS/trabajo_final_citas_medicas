@@ -16,8 +16,12 @@ public class DoctorService {
     private DoctorRepository doctorRepository;
 
     @Transactional
-    public void guardar(DoctorRepresentation doctorRepre) {
-        this.doctorRepository.persist(this.mapperToDoctor(doctorRepre));
+    public DoctorRepresentation guardar(DoctorRepresentation doctorRepre) {
+        Doctor doctor = this.mapperToDoctor(doctorRepre);
+
+        this.doctorRepository.persist(doctor);
+
+        return this.mapperToDR(doctor);
     }
 
     public List<DoctorRepresentation> listarTodos() {
@@ -63,7 +67,7 @@ public class DoctorService {
         docRepre.nombre = doctor.nombre;
         docRepre.apellido = doctor.apellido;
         docRepre.nro_licencia = doctor.nro_licencia;
-        docRepre.estado = doctor.estado;
+        docRepre.estado = docRepre.estado;
         docRepre.especialidad = doctor.especialidad;
         return docRepre;
     }
@@ -74,7 +78,7 @@ public class DoctorService {
         doctor.nombre = docRepre.nombre;
         doctor.apellido = docRepre.apellido;
         doctor.nro_licencia = docRepre.nro_licencia;
-        doctor.estado = doctor.estado;
+        doctor.estado = docRepre.estado;
         doctor.especialidad = docRepre.especialidad;
         return doctor;
     }

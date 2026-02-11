@@ -29,9 +29,10 @@ public class DoctorResource {
     @POST
     @Path("")
     @RolesAllowed("admin")
-    public Response registrarDoctor(DoctorRepresentation docRepre){
-        this.doctorService.guardar(docRepre);
-        return Response.status(Response.Status.CREATED).entity(docRepre).build();
+    public Response registrarDoctor(DoctorRepresentation docRepre) {
+        DoctorRepresentation nuevoDoctor = this.doctorService.guardar(docRepre);
+
+        return Response.status(Response.Status.CREATED).entity(nuevoDoctor).build();
     }
     @GET
     @Path("")
