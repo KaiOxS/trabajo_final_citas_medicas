@@ -33,7 +33,7 @@ public class AuthResource {
         String role = authService.autenticar(user, password);
 
         if (role != null) {
-            String issuer = "matricula-auth";
+            String issuer = "citamedica-auth";
             long ttl = 3600;
             Instant now = Instant.now();
             Instant exp = now.plusSeconds(ttl);

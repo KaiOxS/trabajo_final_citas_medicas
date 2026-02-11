@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -43,6 +44,7 @@ public class CitaMedica extends PanacheEntityBase {
 
     @NotNull(message = "La hora de la cita es obligatoria")
     @Column(name = "hora_cita", nullable = false)
+    @JsonbDateFormat("HH:mm")
     private LocalTime horaCita;
 
     @Column(length = 500)

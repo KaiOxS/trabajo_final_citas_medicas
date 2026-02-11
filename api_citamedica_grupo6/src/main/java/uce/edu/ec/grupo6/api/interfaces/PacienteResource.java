@@ -82,6 +82,5 @@ public class PacienteResource {
     @RolesAllowed("admin")
     public void borrar(@PathParam("id") Integer id) {
         this.pacienteService.eliminar(id);
-        ;
     }
 }

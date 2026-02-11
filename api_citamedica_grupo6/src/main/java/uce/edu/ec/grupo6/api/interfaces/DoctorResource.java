@@ -29,7 +29,7 @@ public class DoctorResource {
     @Path("")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("ADMIN")
+    @RolesAllowed("admin")
     public Response registrarDoctor(@Valid Doctor doctor) {
         this.doctorService.guardar(doctor);
         return Response.status(Response.Status.CREATED).entity(doctor).build();
@@ -38,6 +38,7 @@ public class DoctorResource {
     @GET
     @Path("")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
     public List<Doctor> obtenerDoctores() {
         return this.doctorService.listarTodos();
     }
@@ -46,7 +47,7 @@ public class DoctorResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed("ADMIN")
+    @RolesAllowed("admin")
     public Response modificarDoctor(@PathParam("id") Long id,@Valid Doctor doctor) {
         Doctor actualizado = doctorService.actualizar(id, doctor);
 
@@ -59,7 +60,7 @@ public class DoctorResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("ADMIN")
+    @RolesAllowed("admin")
     public Response borrarDoctor(@PathParam("id") Long id) {
         boolean eliminado = this.doctorService.eliminar(id);
 

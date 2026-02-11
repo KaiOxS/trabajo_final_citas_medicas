@@ -47,6 +47,7 @@ public class CitaMedicaResource {
 
     @GET
     @Path("")
+    @RolesAllowed("admin")
     public Response listarTodas(@QueryParam("soloActivas") boolean soloActivas) {
         List<CitaMedica> citas;
         if (soloActivas) {
@@ -59,6 +60,7 @@ public class CitaMedicaResource {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response buscarPorId(@PathParam("id") Long id) {
         try {
             CitaMedica cita = citaMedicaService.buscarPorId(id);
@@ -72,6 +74,7 @@ public class CitaMedicaResource {
 
     @GET
     @Path("/doctor/{doctorId}")
+    @RolesAllowed("admin")
     public Response listarPorDoctor(@PathParam("doctorId") Long doctorId) {
         List<CitaMedica> citas = citaMedicaService.listarPorDoctor(doctorId);
         return Response.ok(citas).build();
@@ -79,6 +82,7 @@ public class CitaMedicaResource {
 
     @GET
     @Path("/paciente/{pacienteId}")
+    @RolesAllowed("admin")
     public Response listarPorPaciente(@PathParam("pacienteId") Long pacienteId) {
         List<CitaMedica> citas = citaMedicaService.listarPorPaciente(pacienteId);
         return Response.ok(citas).build();
