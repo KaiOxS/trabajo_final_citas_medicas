@@ -148,7 +148,7 @@ export default {
   margin: 20px auto;
   text-align: center;
 }
-.exito { color: green; font-weight: bold; margin-top: 15px; }
+.exito { color: #42b983; font-weight: bold; margin-top: 15px; }
 .error { color: red; font-weight: bold; margin-top: 15px; }
-.info { color: #2196F3; font-weight: bold; margin-top: 15px; }
+.info { color: #2c3e50; font-weight: bold; margin-top: 15px; }
 </style>

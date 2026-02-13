@@ -96,6 +96,6 @@ export default {
 
 h1 {
   margin-bottom: 30px;
-  color: #2c3e50;
+  color: #2c3e50
 }
 </style>

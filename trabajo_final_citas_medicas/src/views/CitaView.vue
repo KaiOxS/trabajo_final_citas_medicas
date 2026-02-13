@@ -136,8 +136,8 @@ export default {
   margin: 20px auto;
   text-align: center;
 }
-.exito { color: green; font-weight: bold; margin-top: 15px; }
+.exito { color:  #42b983;font-weight: bold; margin-top: 15px; }
 .error { color: red; font-weight: bold; margin-top: 15px; }
 .boton_destr { margin-top: 30px; }
-.btn-reset { background-color: #333; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+.btn-reset { background-color: #2c3e50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
 </style>

@@ -215,15 +215,15 @@ export default {
 
 button { padding: 10px; cursor: pointer; border-radius: 5px; border: none; font-weight: bold; color: white; transition: 0.3s; }
 button:hover { opacity: 0.9; transform: scale(1.02); }
-
-.btn-agendar { background-color: #4CAF50; }
-.btn-listar { background-color: #2196F3; }
-.btn-guardar { background-color: #4CAF50; width: 100%; font-size: 1rem; }
+  
+.btn-agendar { background-color: #42b983 }
+.btn-listar { background-color: #2c3e50; }
+.btn-guardar { background-color: #42b983; width: 100%; font-size: 1rem; }
 .btn-volver { background-color: #607d8b; align-self: flex-start; padding: 5px 15px; font-size: 0.8rem; }
 .btn-eliminar-tabla { background-color: #e53935; padding: 5px 10px; font-size: 0.8rem; }
 
 input, select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
-input:focus, select:focus { border-color: #2196F3; outline: none; }
+input:focus, select:focus { border-color: #2c3e50; outline: none; }
 
 .alerta-error {
   background-color: #ffebee;
