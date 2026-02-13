@@ -1,5 +1,5 @@
 import axios from "axios";
-import { obTokenFacade } from "../clients/ObtenerTockenClient.js";
+import { obTokenFacade } from "./ObtenerTockenClient.js";
 
 const URL = 'http://localhost:8080/citamedica/api/v1.0/pacientes';
 

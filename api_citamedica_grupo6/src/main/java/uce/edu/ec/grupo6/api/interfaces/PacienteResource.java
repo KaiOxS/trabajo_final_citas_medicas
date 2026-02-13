@@ -39,7 +39,7 @@ public class PacienteResource {
     }
 
     @GET
-    @Path("cedula")
+    @Path("/cedula")
     @RolesAllowed("admin")
     public List<PacienteRepresentation> buscarPorCedula(@QueryParam("cedula") String cedula) {
         System.out.println("LISTAR POR CEDULA");

@@ -22,7 +22,7 @@
 
 <script>
 
-import PacienteComponente from "../components/Paciente.vue";
+import PacienteComponente from "../components/PacienteComponent.vue";
 
 
 import { 
@@ -31,7 +31,7 @@ import {
   guardarPacienteFachada, 
   actualizarPacienteFachada,
   eliminarPacienteFachada
-} from "../clients/Paciente.js"; 
+} from "../clients/PacienteClient.js"; 
 
 
 import { consultarPorPacienteFachada } from "../clients/CitaClient.js";

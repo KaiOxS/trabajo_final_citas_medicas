@@ -1,16 +1,26 @@
 <template>
   <div class="login-card">
     <h2>Iniciar Sesión</h2>
-
+    
     <form @submit.prevent="iniciarSesion">
       <div class="form-group">
         <label>Usuario:</label>
-        <input type="text" v-model="credenciales.usuario" placeholder="Ej. admin" required />
+        <input 
+          type="text" 
+          v-model="credenciales.usuario" 
+          placeholder="Ej. admin" 
+          required 
+        />
       </div>
 
       <div class="form-group">
         <label>Contraseña:</label>
-        <input type="password" v-model="credenciales.password" placeholder="******" required />
+        <input 
+          type="password" 
+          v-model="credenciales.password" 
+          placeholder="******" 
+          required 
+        />
       </div>
 
       <p v-if="error" class="error-msg">{{ error }}</p>
@@ -23,7 +33,7 @@
 </template>
 
 <script>
-import { loginFachada } from '@/clients/ObtenerTockenClient';
+import { loginFachada } from '@/clients/ObtenerTockenClient.js';
 
 export default {
   name: 'LoginForm',
@@ -43,12 +53,14 @@ export default {
       this.error = null;
 
       try {
-        // 1. Llamamos al API
         const data = await loginFachada(this.credenciales.usuario, this.credenciales.password);
+        
         localStorage.setItem('token', data.accessToken);
-        localStorage.setItem('estaAutenticado', 'true');
+        localStorage.setItem('estaAutenticado', 'true'); 
+        
         localStorage.setItem('rol', data.role);
-        this.$router.push({ name: 'citas' });
+
+        this.$router.push({ name: 'citas' }); 
 
       } catch (e) {
         this.error = "Usuario o contraseña incorrectos.";
@@ -65,7 +77,7 @@ export default {
   background: white;
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 400px;
   text-align: center;
@@ -94,8 +106,7 @@ input {
 button {
   width: 100%;
   padding: 12px;
-  background-color: #2c3e50;
-  /* Tu color de tema */
+  background-color: #2c3e50; 
   color: white;
   border: none;
   border-radius: 5px;
