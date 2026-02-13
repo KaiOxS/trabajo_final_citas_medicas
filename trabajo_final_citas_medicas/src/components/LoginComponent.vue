@@ -7,7 +7,7 @@
         <label>Usuario:</label>
         <input 
           type="text" 
-          v-model="credenciales.usuario" 
+          v-model="credenciales.user" 
           placeholder="Ej. admin" 
           required 
         />
@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       credenciales: {
-        usuario: '',
+        user: '',
         password: ''
       },
       error: null,
@@ -53,7 +53,7 @@ export default {
       this.error = null;
 
       try {
-        const data = await loginFachada(this.credenciales.usuario, this.credenciales.password);
+        const data = await loginFachada(this.credenciales.user, this.credenciales.password);
         
         localStorage.setItem('token', data.accessToken);
         localStorage.setItem('estaAutenticado', 'true'); 

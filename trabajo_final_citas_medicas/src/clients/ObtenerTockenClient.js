@@ -1,27 +1,26 @@
 import axios from "axios";
 
-const URL = "http://localhost:8082/auth/api/v1.0/usuarios/token?user=admin&&password=123456"
+const URL = "http://localhost:8082/auth/api/v1.0/usuarios/token?"
 const URL_AUTH = 'http://localhost:8082/auth/api/v1.0/usuarios/token';
 
 let tokenEnMemoria = null;
 
 // Métodos
 const obToken = async () => {
+    // 1. Intentar sacar el token que ya guardamos en el login exitoso
+    const tokenGuardado = localStorage.getItem('token');
 
-    if (tokenEnMemoria) {
-        return tokenEnMemoria;
+    if (tokenGuardado) {
+        return tokenGuardado;
     }
 
-    try {
-        const token = await axios.get(`${URL}`).then(r => r.data);
-        tokenEnMemoria = token.accessToken;
-        return tokenEnMemoria;
-    } catch (error) {
-        console.error("Error al obtener token:", error);
-        throw error;
-    }
-
+    // 2. Si no hay token, no intentes llamar a URL_AUTH sin parámetros
+    // Mejor redirigir al login o lanzar un error controlado
+    console.warn("No hay token en memoria. El usuario debe loguearse.");
+    return null; 
 }
+
+// ... mantener la función login como está para cuando el usuario sí escriba sus datos
 
 const login = async (usuario, password) => {
     try {
