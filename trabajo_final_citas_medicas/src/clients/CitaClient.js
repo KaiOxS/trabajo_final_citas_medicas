@@ -2,9 +2,8 @@ import axios from "axios";
 import { obTokenFacade } from "../clients/ObtenerTockenClient.js";
 
 // Asegúrate de que el puerto sea el correcto (8080 o 8081 según tu Quarkus)
-const URL = "http://localhost:8080/citamedica/api/v1.0/citas";
-const URL_DOCTORES = "http://localhost:8080/citamedica/api/v1.0/doctores";
-const URL_PACIENTES = "http://localhost:8080/citamedica/api/v1.0/pacientes";
+const URL = "http://localhost:8081/citamedica/api/v1.0/citas";
+const URL_PACIENTES = "http://localhost:8081/citamedica/api/v1.0/pacientes";
 
 // Mapeo de @GET @Path("") - soporta el queryParam "soloActivas"
 const consultarTodos = async (soloActivas = false) => {
@@ -109,16 +108,6 @@ export const borrarFachada = async (id) => {
     return await borrar(id);
 }
 
-const consultarTodosDoctores = async () => {
-    // Si usas tokens, recuerda agregar los headers aquí también
-    const TOKEN = await obTokenFacade();
-    const data = axios.get(`${URL_DOCTORES}`, { headers: { Authorization: `Bearer ${TOKEN}` } }).then(r => r.data);
-    return data;
-}
-
-export const consultarDoctoresFachada = async () => {
-    return await consultarTodosDoctores();
-}
 
 const consultarTodosPacientes = async () => {
     const TOKEN = await obTokenFacade();
@@ -129,3 +118,4 @@ const consultarTodosPacientes = async () => {
 export const consultarPacientesFachada = async () => {
     return await consultarTodosPacientes();
 }
+

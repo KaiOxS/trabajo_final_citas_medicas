@@ -1,31 +1,24 @@
 <template>
   <div class="contenedor-principal">
-    
+
     <h2>Módulo de Citas</h2>
 
-    <CitaOpciones 
-      v-if="mostrar"
-      :listaDoctores="doctoresArr"
-      :listaPacientes="pacientesArr"
-      :listaCitas="citasArr"
-      @seleccionado="evaluarYGuardar"
-      @accionListar="cargarListaCitas"
-      @accionBorrar="eliminarCita"
-    />
+    <CitaOpciones v-if="mostrar" :listaDoctores="doctoresArr" :listaPacientes="pacientesArr" :listaCitas="citasArr"
+      @seleccionado="evaluarYGuardar" @accionListar="cargarListaCitas" @accionBorrar="eliminarCita" />
 
     <p v-if="mensaje" :class="esError ? 'error' : 'exito'">
       {{ mensaje }}
     </p>
 
-  
+
   </div>
 </template>
 
 <script>
 import CitaOpciones from "../components/CitaComponent.vue";
-import { 
-  consultarDoctoresFachada, 
-  consultarPacientesFachada, 
+import { consultarTodosDoctoresFachada } from "../clients/DoctorClient.js";
+import {
+  consultarPacientesFachada,
   guardarFachada,
   consultarTodosFachada,
   borrarFachada
@@ -33,7 +26,7 @@ import {
 
 export default {
   components: { CitaOpciones },
-  
+
   data() {
     return {
       doctoresArr: [],
@@ -53,9 +46,9 @@ export default {
   methods: {
     async cargarCatalogos() {
       try {
-        
+
         const [docs, pacs] = await Promise.all([
-          consultarDoctoresFachada(),
+          consultarTodosDoctoresFachada(),
           consultarPacientesFachada()
         ]);
         this.doctoresArr = docs;
@@ -67,17 +60,17 @@ export default {
       }
     },
 
-    
+
     async evaluarYGuardar(datosRecibidos) {
       this.mensaje = "Procesando cita...";
       this.esError = false;
 
-      
+
       const citaParaGuardar = {
         doctor: { id: datosRecibidos.doctorId },
         paciente: { id: datosRecibidos.pacienteId },
-        fechaCita: datosRecibidos.fecha, 
-        horaCita: datosRecibidos.hora,  
+        fechaCita: datosRecibidos.fecha,
+        horaCita: datosRecibidos.hora,
         motivo: datosRecibidos.motivo,
         estadoCita: 'CREATED'
       };
@@ -85,7 +78,7 @@ export default {
       try {
         await guardarFachada(citaParaGuardar);
         this.mensaje = "¡Cita agendada exitosamente!";
-        
+
       } catch (error) {
         console.error("Error Backend:", error.response?.data);
         this.mensaje = "Error al guardar. Verifica los datos.";
@@ -93,25 +86,25 @@ export default {
       }
     },
 
-    
+
     async cargarListaCitas() {
       this.mensaje = "Actualizando lista...";
       try {
         this.citasArr = await consultarTodosFachada();
-        this.mensaje = ""; 
+        this.mensaje = "";
       } catch (error) {
         this.mensaje = "No se pudieron obtener las citas.";
         this.esError = true;
       }
     },
 
-    
+
     async eliminarCita(idCita) {
       try {
         await borrarFachada(idCita);
         this.mensaje = "Cita cancelada/eliminada correctamente.";
         this.esError = false;
-      
+
         await this.cargarListaCitas();
       } catch (error) {
         console.error(error);
@@ -136,8 +129,29 @@ export default {
   margin: 20px auto;
   text-align: center;
 }
-.exito { color:  #42b983;font-weight: bold; margin-top: 15px; }
-.error { color: red; font-weight: bold; margin-top: 15px; }
-.boton_destr { margin-top: 30px; }
-.btn-reset { background-color: #2c3e50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+
+.exito {
+  color: #42b983;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.boton_destr {
+  margin-top: 30px;
+}
+
+.btn-reset {
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 </style>

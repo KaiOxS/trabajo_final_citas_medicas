@@ -1,14 +1,10 @@
 <template>
   <div class="opcionesContainer">
-    
+
     <div v-if="vistaActual === 'menu'" class="menu-inicial">
       <h3>Sistema de Citas Médicas</h3>
-      
-      <img 
-        src="../assets/hospital.jpg" 
-        alt="Imagen Hospital" 
-        class="imagen-cita"
-      />
+
+      <img src="../assets/hospital.jpg" alt="Imagen Hospital" class="imagen-cita" />
 
       <div class="botones-menu">
         <button class="btn-agendar" @click="vistaActual = 'form'">
@@ -48,7 +44,7 @@
         <label>Fecha:</label>
         <input type="date" v-model="citaLocal.fecha">
       </div>
-      
+
       <div class="form-group">
         <label>Hora:</label>
         <input type="time" v-model="citaLocal.hora">
@@ -124,10 +120,10 @@ export default {
   },
   data() {
     return {
-      vistaActual: 'menu', 
+      vistaActual: 'menu',
       idParaBorrar: null,
       mensajeError: null,
-      
+
       citaLocal: {
         doctorId: null,
         pacienteId: null,
@@ -137,7 +133,7 @@ export default {
       }
     };
   },
-  
+
   methods: {
     irAlMenu() {
       this.mensajeError = null;
@@ -152,36 +148,36 @@ export default {
     },
 
     pasarPadre() {
-     
+
       this.mensajeError = null;
 
       // Validación
-      if(!this.citaLocal.doctorId || !this.citaLocal.pacienteId || !this.citaLocal.fecha || !this.citaLocal.hora){
+      if (!this.citaLocal.doctorId || !this.citaLocal.pacienteId || !this.citaLocal.fecha || !this.citaLocal.hora) {
         this.mensajeError = "Por favor completa todos los campos obligatorios.";
-        
+
         // Timer para limpiar el mensaje
         setTimeout(() => {
-             this.mensajeError = null; 
+          this.mensajeError = null;
         }, 3000);
-        
-        return; 
+
+        return;
       }
-      
+
       this.$emit("seleccionado", this.citaLocal);
     },
-    
+
     irALista() {
       this.vistaActual = 'lista';
-      this.$emit("accionListar"); 
+      this.$emit("accionListar");
     },
 
     preguntarBorrado(id) {
-      this.idParaBorrar = id; 
+      this.idParaBorrar = id;
     },
 
     confirmarAccion() {
-      this.$emit('accionBorrar', this.idParaBorrar); 
-      this.idParaBorrar = null; 
+      this.$emit('accionBorrar', this.idParaBorrar);
+      this.idParaBorrar = null;
     }
   }
 };
@@ -195,35 +191,113 @@ export default {
   max-width: 600px;
   margin: 0 auto;
   background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.menu-inicial, .formulario-cita, .lista-citas {
+.menu-inicial,
+.formulario-cita,
+.lista-citas {
   display: flex;
   flex-direction: column;
   gap: 15px;
   align-items: center;
 }
 
-.imagen-cita { width: 300px; height: 200px; object-fit: contain; border-radius: 8px; }
-.botones-menu { display: flex; flex-direction: column; gap: 10px; width: 80%; }
-.form-group { width: 100%; display: flex; flex-direction: column; text-align: left; }
+.imagen-cita {
+  width: 300px;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+}
 
-.tabla-citas { width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 10px; }
-.tabla-citas th, .tabla-citas td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-.tabla-citas th { background-color: #f4f4f4; color: #333; }
+.botones-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%;
+}
 
-button { padding: 10px; cursor: pointer; border-radius: 5px; border: none; font-weight: bold; color: white; transition: 0.3s; }
-button:hover { opacity: 0.9; transform: scale(1.02); }
-  
-.btn-agendar { background-color: #42b983 }
-.btn-listar { background-color: #2c3e50; }
-.btn-guardar { background-color: #42b983; width: 100%; font-size: 1rem; }
-.btn-volver { background-color: #607d8b; align-self: flex-start; padding: 5px 15px; font-size: 0.8rem; }
-.btn-eliminar-tabla { background-color: #e53935; padding: 5px 10px; font-size: 0.8rem; }
+.form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
 
-input, select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
-input:focus, select:focus { border-color: #2c3e50; outline: none; }
+.tabla-citas {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+.tabla-citas th,
+.tabla-citas td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla-citas th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+button {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  font-weight: bold;
+  color: white;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.btn-agendar {
+  background-color: #42b983
+}
+
+.btn-listar {
+  background-color: #2c3e50;
+}
+
+.btn-guardar {
+  background-color: #42b983;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.btn-volver {
+  background-color: #607d8b;
+  align-self: flex-start;
+  padding: 5px 15px;
+  font-size: 0.8rem;
+}
+
+.btn-eliminar-tabla {
+  background-color: #e53935;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+}
+
+input,
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+input:focus,
+select:focus {
+  border-color: #2c3e50;
+  outline: none;
+}
 
 .alerta-error {
   background-color: #ffebee;
@@ -238,20 +312,49 @@ input:focus, select:focus { border-color: #2c3e50; outline: none; }
   box-sizing: border-box;
 }
 
-.fade-enter-active, .fade-leave-active { transition: opacity 0.5s; }
-.fade-enter-from, .fade-leave-to { opacity: 0; }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
 .modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: flex; justify-content: center; align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 999;
 }
+
 .modal-contenido {
-  background: white; padding: 25px; border-radius: 8px; text-align: center; width: 320px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
-.modal-botones { display: flex; justify-content: space-around; margin-top: 20px; }
-.btn-confirmar { background-color: #d32f2f; }
-.btn-cancelar-modal { background-color: #757575; }
+
+.modal-botones {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.btn-confirmar {
+  background-color: #d32f2f;
+}
+
+.btn-cancelar-modal {
+  background-color: #757575;
+}
 </style>

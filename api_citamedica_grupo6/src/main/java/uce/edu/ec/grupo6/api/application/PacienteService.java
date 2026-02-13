@@ -18,51 +18,55 @@ public class PacienteService {
 
     public List<PacienteRepresentation> listarTodos() {
         List<PacienteRepresentation> list = new ArrayList<>();
-        for(Paciente pac : this.pacienteRepository.listAll()) {
+        for (Paciente pac : this.pacienteRepository.listAll()) {
             list.add(this.mapperToCR(pac));
         }
         return list;
     }
 
-    public PacienteRepresentation consultarPorId(Integer id){
+    public PacienteRepresentation consultarPorId(Integer id) {
         return this.mapperToCR(this.pacienteRepository.findById(id.longValue()));
     }
 
     @Transactional
-    public void crear(PacienteRepresentation pac){
+    public void crear(PacienteRepresentation pac) {
         this.pacienteRepository.persist(this.mapperToPaciente(pac));
     }
 
     @Transactional
     public void actualizar(Integer id, PacienteRepresentation pac) {
-        Paciente pacA = this.mapperToPaciente(this.consultarPorId(id));
-        pacA.setCedula(pac.getCedula());
-        pacA.setCelular(pac.getCelular());
-        pacA.setDireccion(pac.getDireccion());
-        pacA.setFecha_nac(pac.getFecha_nac());
-        pacA.setApellido(pac.getApellido());
-        pacA.setNombre(pac.getNombre());
+        Paciente pacienteReal = this.pacienteRepository.findById(id.longValue());
+
+        // Validamos que exista
+        if (pacienteReal != null) {
+            pacienteReal.setCedula(pac.getCedula());
+            pacienteReal.setCelular(pac.getCelular());
+            pacienteReal.setDireccion(pac.getDireccion());
+            pacienteReal.setFecha_nac(pac.getFecha_nac());
+            pacienteReal.setApellido(pac.getApellido());
+            pacienteReal.setNombre(pac.getNombre());
+        }
     }
 
     @Transactional
     public void actualizarParcial(Integer id, PacienteRepresentation pac) {
         Paciente pacA = this.mapperToPaciente(this.consultarPorId(id));
-        if(pac.getCedula() != null) {
+        if (pac.getCedula() != null) {
             pacA.setCedula(pac.getCedula());
         }
-        if(pac.getCelular() != null) {
+        if (pac.getCelular() != null) {
             pacA.setCelular(pac.getCelular());
         }
-        if(pac.getDireccion() != null) {
+        if (pac.getDireccion() != null) {
             pacA.setDireccion(pac.getDireccion());
         }
-        if(pac.getFecha_nac() != null) {
+        if (pac.getFecha_nac() != null) {
             pacA.setFecha_nac(pac.getFecha_nac());
         }
-        if(pac.getApellido() != null) {
+        if (pac.getApellido() != null) {
             pacA.setApellido(pac.getApellido());
         }
-        if(pac.getNombre() != null) {
+        if (pac.getNombre() != null) {
             pacA.setNombre(pac.getNombre());
         }
     }
@@ -72,15 +76,15 @@ public class PacienteService {
         this.pacienteRepository.deleteById(id.longValue());
     }
 
-    public List<PacienteRepresentation> buscarPorCedula(String cedula){
-       List<PacienteRepresentation> list = new ArrayList<>();
-        for(Paciente pac : this.pacienteRepository.find("cedula = ?1", cedula).list()){
+    public List<PacienteRepresentation> buscarPorCedula(String cedula) {
+        List<PacienteRepresentation> list = new ArrayList<>();
+        for (Paciente pac : this.pacienteRepository.find("cedula = ?1", cedula).list()) {
             list.add(this.mapperToCR(pac));
         }
         return list;
     }
 
-    private PacienteRepresentation mapperToCR (Paciente pac) {
+    private PacienteRepresentation mapperToCR(Paciente pac) {
         PacienteRepresentation pacR = new PacienteRepresentation();
         pacR.setId(pac.getId());
         pacR.setCedula(pac.getCedula());
@@ -92,7 +96,7 @@ public class PacienteService {
         return pacR;
     }
 
-    private Paciente mapperToPaciente (PacienteRepresentation pacR) {
+    private Paciente mapperToPaciente(PacienteRepresentation pacR) {
         Paciente pac = new Paciente();
         pac.setId(pacR.getId());
         pac.setCedula(pacR.getCedula());

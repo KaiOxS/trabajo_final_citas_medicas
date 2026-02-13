@@ -32,8 +32,8 @@ public class Paciente extends PanacheEntityBase {
     private String apellido;
 
     @NotBlank(message = "La cédula es obligatoria")
-    @Size(min = 10, max = 10, message = "La cédula debe tener 10 dígitos")
-    @Column(length = 10, unique = true, nullable = false)
+    @Size(min = 0, max = 100, message = "La cédula debe tener entre 10 y 100 dígitos")
+    @Column(length = 100, unique = true, nullable = false)
     private String cedula;
 
     @Column(length = 20)

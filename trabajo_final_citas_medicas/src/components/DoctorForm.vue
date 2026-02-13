@@ -181,6 +181,7 @@ export default {
 }
 
 form {
+  text-align: left;
   padding: 25px;
 }
 

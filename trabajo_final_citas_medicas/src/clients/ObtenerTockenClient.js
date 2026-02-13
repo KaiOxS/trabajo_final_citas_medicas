@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://localhost:8082/auth/api/v1.0/usuarios/token?user=admin&password=123456"
+const URL = "http://localhost:8082/auth/api/v1.0/usuarios/token?user=admin&&password=123456"
 const URL_AUTH = 'http://localhost:8082/auth/api/v1.0/usuarios/token';
 
 let tokenEnMemoria = null;
