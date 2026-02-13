@@ -16,11 +16,7 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "paciente")
-@SequenceGenerator(
-    name = "paciente_seq",
-    sequenceName = "paciente_secuencia",
-    allocationSize = 1
-)
+@SequenceGenerator(name = "paciente_seq", sequenceName = "paciente_secuencia", allocationSize = 1)
 public class Paciente extends PanacheEntityBase {
 
     @Id
@@ -106,5 +102,4 @@ public class Paciente extends PanacheEntityBase {
         this.direccion = direccion;
     }
 
-    
 }

@@ -25,8 +25,7 @@ public class AuthResource {
     @Produces(MediaType.APPLICATION_JSON)
     public TokenResponse token(
             @QueryParam("user") String user,
-            @QueryParam("password") String password
-    ) {
+            @QueryParam("password") String password) {
 
         // Donde se compara el password y el usuario contra la base
         // Tarea, crear una tabla usuario con clave primaria, nombre, password y rol

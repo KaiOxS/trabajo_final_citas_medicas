@@ -1,12 +1,13 @@
 <template>
   <div class="modal-overlay">
     <div class="modal-container">
+
       <div class="modal-header">
-        <h3>{{ isEditing ? 'Editar Doctor' : 'Nuevo Doctor' }}</h3>
-        <button @click="$emit('close')" class="close-btn">&times;</button>
+        <h3>{{ form.id ? 'Editar Doctor' : 'Nuevo Doctor' }}</h3>
+        <button @click="cerrar" class="close-btn">&times;</button>
       </div>
 
-      <form @submit.prevent="handleSubmit">
+      <form @submit.prevent="enviarDatos">
         <div class="form-group">
           <label>Nombre *</label>
           <input v-model="form.nombre" type="text" required placeholder="Ingrese nombre">
@@ -37,13 +38,14 @@
 
         <div class="modal-footer">
           <button type="submit" class="btn-save">
-            {{ isEditing ? 'Actualizar' : 'Guardar' }}
+            {{ form.id ? 'Actualizar' : 'Guardar' }}
           </button>
-          <button type="button" @click="$emit('close')" class="btn-cancel">
+          <button type="button" @click="cerrar" class="btn-cancel">
             Cancelar
           </button>
         </div>
       </form>
+
     </div>
   </div>
 </template>
@@ -51,21 +53,14 @@
 <script>
 export default {
   name: 'DoctorForm',
-  props: {
-    doctorToEdit: {
-      type: Object,
-      default: null
-    }
-  },
+  props: ['doctorToEdit'],
   emits: ['save', 'close'],
-  computed: {
-    isEditing() {
-      return !!this.doctorToEdit;
-    }
-  },
+
   data() {
     return {
+      // Datos del formulario
       form: {
+        id: null,
         nombre: '',
         apellido: '',
         especialidad: '',
@@ -74,40 +69,49 @@ export default {
       }
     };
   },
+
   watch: {
     doctorToEdit: {
       immediate: true,
-      handler(newVal) {
-        if (newVal) {
-          this.form = {
-            nombre: newVal.nombre || '',
-            apellido: newVal.apellido || '',
-            especialidad: newVal.especialidad || '',
-            nro_licencia: newVal.nro_licencia || '',
-            estado: newVal.estado || 'ACTIVO'
-          };
+      handler(doctorRecibido) {
+        if (doctorRecibido) {
+          this.form.id = doctorRecibido.id;
+          this.form.nombre = doctorRecibido.nombre;
+          this.form.apellido = doctorRecibido.apellido;
+          this.form.especialidad = doctorRecibido.especialidad;
+          this.form.nro_licencia = doctorRecibido.nro_licencia;
+          this.form.estado = doctorRecibido.estado;
         } else {
-          this.form = {
-            nombre: '',
-            apellido: '',
-            especialidad: '',
-            nro_licencia: '',
-            estado: 'ACTIVO'
-          };
+          this.limpiarFormulario();
         }
       }
     }
   },
+
   methods: {
-    handleSubmit() {
+    limpiarFormulario() {
+      this.form = {
+        id: null,
+        nombre: '',
+        apellido: '',
+        especialidad: '',
+        nro_licencia: '',
+        estado: 'ACTIVO'
+      };
+    },
+
+    enviarDatos() {
       this.$emit('save', this.form);
+    },
+
+    cerrar() {
+      this.$emit('close');
     }
   }
 };
 </script>
 
 <style scoped>
-/* Overlay que cubre toda la pantalla */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -121,7 +125,6 @@ export default {
   z-index: 9999;
 }
 
-/* Contenedor del modal */
 .modal-container {
   background: white;
   border-radius: 12px;
@@ -138,13 +141,13 @@ export default {
     transform: translateY(-30px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
   }
 }
 
-/* Cabecera del modal */
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -177,7 +180,6 @@ export default {
   color: #dc3545;
 }
 
-/* Formulario */
 form {
   padding: 25px;
 }
@@ -217,11 +219,6 @@ form {
   border-color: #adb5bd;
 }
 
-.form-group input::placeholder {
-  color: #adb5bd;
-}
-
-/* Footer del modal */
 .modal-footer {
   display: flex;
   gap: 15px;
@@ -264,25 +261,16 @@ form {
   box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
 }
 
-/* Responsive */
 @media (max-width: 576px) {
   .modal-container {
     width: 95%;
     margin: 20px;
   }
-  
+
   .modal-header {
     padding: 15px 20px;
   }
-  
-  .modal-header h3 {
-    font-size: 1.2rem;
-  }
-  
-  form {
-    padding: 20px;
-  }
-  
+
   .modal-footer {
     flex-direction: column;
   }

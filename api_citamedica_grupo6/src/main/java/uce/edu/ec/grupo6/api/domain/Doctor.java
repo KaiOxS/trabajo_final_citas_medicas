@@ -1,8 +1,16 @@
 package uce.edu.ec.grupo6.api.domain;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank; 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "doctor")
@@ -13,7 +21,7 @@ public class Doctor extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "doctor_seq")
     public Long id;
 
-    @NotBlank(message = "El nombre es obligatorio") 
+    @NotBlank(message = "El nombre es obligatorio")
     @Column(length = 100, nullable = false)
     public String nombre;
 
@@ -30,7 +38,7 @@ public class Doctor extends PanacheEntityBase {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
-    public EstadoDoctor estado; 
+    public EstadoDoctor estado;
 
     public enum EstadoDoctor {
         ACTIVO, INACTIVO

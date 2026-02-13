@@ -34,10 +34,11 @@ public class DoctorResource {
 
         return Response.status(Response.Status.CREATED).entity(nuevoDoctor).build();
     }
+
     @GET
     @Path("")
     @RolesAllowed("admin")
-    public List<DoctorRepresentation> obtenerDoctores(){
+    public List<DoctorRepresentation> obtenerDoctores() {
         List<DoctorRepresentation> docRepre = this.doctorService.listarTodos();
         return docRepre;
     }
@@ -45,14 +46,14 @@ public class DoctorResource {
     @PUT
     @Path("/{id}")
     @RolesAllowed("admin")
-    public Response modificarDoctor(@PathParam("id") Long id, DoctorRepresentation docRepre){
+    public Response modificarDoctor(@PathParam("id") Long id, DoctorRepresentation docRepre) {
         DoctorRepresentation actualizado = this.doctorService.actualizar(id, docRepre);
-        
+
         if (actualizado == null) {
-            return Response.status(Response.Status.NOT_FOUND).build(); // 404 si no existe
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
-        
-        return Response.ok(actualizado).build(); // 200 OK
+
+        return Response.ok(actualizado).build();
     }
 
     @DELETE

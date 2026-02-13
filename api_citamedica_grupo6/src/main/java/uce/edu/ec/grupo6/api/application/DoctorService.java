@@ -3,6 +3,7 @@ package uce.edu.ec.grupo6.api.application;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -26,7 +27,7 @@ public class DoctorService {
 
     public List<DoctorRepresentation> listarTodos() {
         List<DoctorRepresentation> listaRepre = new ArrayList<>();
-        for (Doctor doc : this.doctorRepository.listAll()) {
+        for (Doctor doc : this.doctorRepository.listAll(Sort.by("id"))) {
             listaRepre.add(this.mapperToDR(doc));
         }
         return listaRepre;
@@ -67,7 +68,7 @@ public class DoctorService {
         docRepre.nombre = doctor.nombre;
         docRepre.apellido = doctor.apellido;
         docRepre.nro_licencia = doctor.nro_licencia;
-        docRepre.estado = docRepre.estado;
+        docRepre.estado = doctor.estado;
         docRepre.especialidad = doctor.especialidad;
         return docRepre;
     }

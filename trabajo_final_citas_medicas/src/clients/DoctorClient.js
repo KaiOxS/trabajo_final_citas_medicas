@@ -1,72 +1,61 @@
 import axios from 'axios';
+import { obTokenFacade } from './ObtenerTockenClient';
 
-const API = axios.create({
-  baseURL: 'http://localhost:8081/citamedica/api/v1.0',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
+const URL_DOCTORES = 'http://localhost:8081/citamedica/api/v1.0/doctores';
 
-class DoctorClient {
-  // GET - Listar todos
-  async getAllDoctors() {
-    try {
-      const response = await API.get('/doctores');
-      return response.data;
-    } catch (error) {
-      console.error('Error en getAllDoctors:', error);
-      throw error;
+// Métodos
+const consultarTodosDoctores = async () => {
+  const token = await obTokenFacade();
+  console.log("Token obtenido en DoctorClient:", token);
+  const data = await axios.get(`${URL_DOCTORES}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
     }
-  }
-
-  // POST - Crear nuevo
-  async createDoctor(doctorData) {
-    try {
-      const payload = {
-        nombre: doctorData.nombre,
-        apellido: doctorData.apellido,
-        especialidad: doctorData.especialidad || '',
-        nro_licencia: doctorData.nro_licencia,
-        estado: doctorData.estado || 'ACTIVO'
-      };
-      const response = await API.post('/doctores', payload);
-      return response.data;
-    } catch (error) {
-      console.error('Error en createDoctor:', error);
-      throw error;
-    }
-  }
-
-  // PUT - Actualizar
-  async updateDoctor(id, doctorData) {
-    try {
-      const payload = {
-        id: id,
-        nombre: doctorData.nombre,
-        apellido: doctorData.apellido,
-        especialidad: doctorData.especialidad || '',
-        nro_licencia: doctorData.nro_licencia,
-        estado: doctorData.estado || 'ACTIVO'
-      };
-      const response = await API.put(`/doctores/${id}`, payload);
-      return response.data;
-    } catch (error) {
-      console.error('Error en updateDoctor:', error);
-      throw error;
-    }
-  }
-
-  // DELETE - Eliminar
-  async deleteDoctor(id) {
-    try {
-      await API.delete(`/doctores/${id}`);
-      return true;
-    } catch (error) {
-      console.error('Error en deleteDoctor:', error);
-      throw error;
-    }
-  }
+  }).then(r => r.data);
+  return data;
 }
 
-export default new DoctorClient();
+const crearDoctor = async (body) => {
+  const token = await obTokenFacade();
+  return await axios.post(`${URL_DOCTORES}`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(r => r.data);
+}
+
+const actualizarDoctor = async (id, body) => {
+  const token = await obTokenFacade();
+  return await axios.put(`${URL_DOCTORES}/${id}`, body, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(r => r.data);
+}
+
+const eliminarDoctor = async (id) => {
+  const token = await obTokenFacade();
+  return await axios.delete(`${URL_DOCTORES}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+}
+
+// Fachadas
+
+export const consultarTodosDoctoresFachada = async () => {
+  return await consultarTodosDoctores();
+}
+
+export const crearDoctorFachada = async (body) => {
+  return await crearDoctor(body);
+}
+
+export const actualizarDoctorFachada = async (id, body) => {
+  return await actualizarDoctor(id, body);
+}
+
+export const eliminarDoctorFachada = async (id) => {
+  return await eliminarDoctor(id);
+}
